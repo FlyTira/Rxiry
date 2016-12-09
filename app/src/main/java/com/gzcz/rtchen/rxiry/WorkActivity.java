@@ -75,6 +75,9 @@ public class WorkActivity extends AppCompatActivity {
         Button btnMeasure = (Button) findViewById(R.id.btn_c2);
         btnMeasure.setOnClickListener(new btnC2OnClickListener());
 
+        Button btnDelete = (Button) findViewById(R.id.btn_c1);
+        btnDelete.setOnClickListener(new btnC1OnClickListener());
+
         setCallbackFunction();
         mStageManager = new StageManager().setMode("VDML");
 
@@ -150,6 +153,8 @@ public class WorkActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "左键C1按下", Toast.LENGTH_SHORT).show();
                         }
                     });
+
+                    deletedisplay();
                 }
                 if (djircHardwareState.customButton2.buttonDown) {
                     mMainLoopHandler.post(new Runnable() {
@@ -291,6 +296,22 @@ public class WorkActivity extends AppCompatActivity {
         });
     }
 
+    protected void deletedisplay() {
+        /**
+         *  1.delete the resultDisplay data
+         *  2.reset the StageManager
+         */
+        mMainLoopHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                tv_ResultDisplay.setText("");
+                mStageManager.reset();
+
+                Toast.makeText(getApplicationContext(), "数据显示区域刷新",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     protected void measure() {
         /**
          *  @ Timestamp $ RxiryCommands [params],\r\n
@@ -375,6 +396,13 @@ public class WorkActivity extends AppCompatActivity {
 //                }
 //            });
 //        }
+    }
+
+    class btnC1OnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            deletedisplay();
+        }
     }
 
     class btnC2OnClickListener implements View.OnClickListener {
